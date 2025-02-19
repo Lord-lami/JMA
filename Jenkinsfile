@@ -1,4 +1,5 @@
 #!/usr/bin/env groovy
+def gv
 
 pipeline {
     agent any
@@ -7,27 +8,31 @@ pipeline {
         choice(name: 'Version', choices: ['1.1.0', '1.2.0', '1.3.0'], description: 'Version to deploy')
     }
     stages {
+        stage('init') {
+            steps {
+                script {
+                    gv = load('script.groovy')
+                }
+            }
+        }
         stage('build') {
             steps {
                 script {
-                    echo "Building the application..."
+                    gv.buildApp()
                 }
             }
         }
         stage('test') {
             steps {
                 script{
-                    if (params.executeTest) {
-                        echo "Testing the application..."
-                    }
+                    gv.testApp()
                 }
             }
         }
         stage('deploy') {
             steps {
                 script {
-                    echo "Deploying the application..."
-                    echo "Deploying version ${params.Version}"
+                    gv.deployApp()
                 }
             }
         }
