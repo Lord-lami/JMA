@@ -16,8 +16,10 @@ pipeline {
         }
         stage('test') {
             steps {
-                if (params.executeTest) {
-                    echo "Testing the application..."
+                script{
+                    if (params.executeTest) {
+                        echo "Testing the application..."
+                    }
                 }
             }
         }
