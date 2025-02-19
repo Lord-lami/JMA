@@ -1,5 +1,6 @@
 #!/usr/bin/env groovy
 def gv
+ def Env
 
 pipeline {
     agent any
@@ -32,7 +33,7 @@ pipeline {
         }
         stage('deploy') {
             steps {
-                def Env
+               
                 script {
                     Env = input (
                         message: "What environment do you want to deploy to?",
