@@ -1,6 +1,5 @@
 #!/usr/bin/env groovy
 def gv
- def Env
 
 pipeline {
     agent any
@@ -24,7 +23,6 @@ pipeline {
             }
         }
         stage('test') {
-            
             steps {
                 script{
                     gv.testApp()
@@ -32,16 +30,15 @@ pipeline {
             }
         }
         stage('deploy') {
+            input {
+                message "What environment do you want to deploy to?"
+                ok "Deployed!"
+                parameters {
+                    choice(name: 'Env', choices: ['dev', 'test', 'prod'], description: 'Environment to deploy to')
+                }
+            }
             steps {
-               
                 script {
-                    Env = input (
-                        message: "What environment do you want to deploy to?",
-                        ok: "Deployed!",
-                        parameters [
-                            choice(name: 'Env', choices: ['dev', 'test', 'prod'], description: 'Environment to deploy to')
-                        ]
-                    )
                     gv.deployApp()
                     echo "Deploying to ${Env}"
                 }
