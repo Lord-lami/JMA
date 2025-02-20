@@ -38,7 +38,6 @@ pipeline {
             //     parameters {
             //         choice(name: 'Env', choices: ['dev', 'test', 'prod'], description: 'Environment to deploy to')
             //     }
-            }
             steps {
                 script {
                     selectedEnv = input(
