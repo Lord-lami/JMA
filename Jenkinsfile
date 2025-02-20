@@ -1,5 +1,6 @@
 #!/usr/bin/env groovy
 def gv
+def selectedEnv
 
 pipeline {
     agent any
