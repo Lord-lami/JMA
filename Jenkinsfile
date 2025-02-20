@@ -1,6 +1,7 @@
 #!/usr/bin/env groovy
 def gv
-def selectedEnv
+def selectedEnv1
+// def selectedEnv2
 
 pipeline {
     agent any
@@ -43,11 +44,13 @@ pipeline {
                     selectedEnv = input(
                         message: "What environment do you want to deploy to?",
                         parameters: [
-                            choice(name: 'Env', choices: ['dev', 'test', 'prod'], description: 'Environment to deploy to')
+                            choice(name: 'Env1', choices: ['dev', 'test', 'prod'], description: 'First Environment to deploy to')
+                            choice(name: 'Env2', choices: ['dev', 'test', 'prod'], description: 'Second Environment to deploy to')
                         ]
                     )
                     gv.deployApp()
-                    echo "Deploying to " + selectedEnv
+                    echo "Deploying to " + selectedEnv['Env1']
+                    echo "Deploying to " + selectedEnv['Env2']
                 }
             }
         }
