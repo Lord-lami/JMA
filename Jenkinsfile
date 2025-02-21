@@ -1,38 +1,54 @@
+#!/usr/bin/env groovy
 def gv
+def selectedEnv1
 
 pipeline {
     agent any
+    parameters{
+        booleanParam(name: 'executeTest', defaultValue: true, description: 'Execute Test?')
+        choice(name: 'Version', choices: ['1.1.0', '1.2.0', '1.3.0'], description: 'Version to deploy')
+    }
     stages {
-        stage("init") {
+        stage('init') {
             steps {
                 script {
-                    gv = load "script.groovy"
+                    gv = load('script.groovy')
                 }
             }
         }
-        stage("build jar") {
+
+        stage('test') {
             steps {
-                script {
-                    echo "building jar"
-                    //gv.buildJar()
+                script{
+                    gv.testApp()
                 }
             }
         }
-        stage("build image") {
+        
+        stage('build') {
+             when {
+                expression {
+                    env.BRANCH_NAME == 'master'
+                }
+            }
             steps {
                 script {
-                    echo "building image"
-                    //gv.buildImage()
+                    gv.buildApp()
                 }
             }
         }
-        stage("deploy") {
+        
+        stage('deploy') {
+            when {
+                expression {
+                    env.BRANCH_NAME == 'master'
+                }
+            }
             steps {
                 script {
-                    echo "deploying"
-                    //gv.deployApp()
+                    gv.deployApp()
                 }
             }
         }
-    }   
+    }
 }
