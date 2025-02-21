@@ -27,12 +27,12 @@ pipeline {
         }
         
         stage('build') {
-            steps {
-                when {
-                    expression {
-                        env.BRANCH_NAME == 'master'
-                    }
+             when {
+                expression {
+                    env.BRANCH_NAME == 'master'
                 }
+            }
+            steps {
                 script {
                     gv.buildApp()
                 }
