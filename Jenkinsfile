@@ -2,8 +2,8 @@
 
 library identifier: 'jenkins-shared-library@master', retriever: modernSCM(
         [$class: 'GitSCMSource',
-         remote: 'https://gitlab.com/nanuchi/jenkins-shared-library.git',
-         credentialsId: 'gitlab-credentials'
+         remote: 'https://github.com/Lord-lami/JSL.git',
+         credentialsId: 'github-credentials'
         ]
 )
 
@@ -13,7 +13,7 @@ def gv
 pipeline {
     agent any
     tools {
-        maven 'Maven'
+        maven 'maven-3.9.9'
     }
     stages {
         stage("init") {
@@ -33,9 +33,9 @@ pipeline {
         stage("build and push image") {
             steps {
                 script {
-                    buildImage 'nanajanashia/demo-app:jma-3.0'
+                    buildImage 'mideol/java-maven-app:jma-3.0'
                     dockerLogin()
-                    dockerPush 'nanajanashia/demo-app:jma-3.0'
+                    dockerPush 'mideol/java-maven-app:jma-3.0'
                 }
             }
         }
